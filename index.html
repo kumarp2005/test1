@@ -1,81 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Flight Management System</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: monospace;
             max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 20px auto;
+            background-color: #f0f0f0;
         }
-        .output {
-            border: 1px solid #ccc;
+        .menu-container {
+            background-color: white;
             padding: 20px;
-            margin: 20px 0;
-            min-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .menu-display {
+            white-space: pre-line;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
         }
         button {
-            margin: 5px;
-            padding: 10px 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>Flight Management System</h1>
-    <div class="output" id="output"></div>
-    <div>
-        <button onclick="handleChoice('1')">1. Aircraft List</button>
-        <button onclick="handleChoice('2')">2. Ticket List</button>
-        <button onclick="handleChoice('3')">3. Exit</button>
+    <div class="menu-container">
+        <div id="menuDisplay" class="menu-display"></div>
+        <div class="button-container">
+            <button onclick="handleChoice('1')">1. Aircraft List</button>
+            <button onclick="handleChoice('2')">2. Ticket List</button>
+            <button onclick="handleChoice('3')">3. Exit</button>
+        </div>
     </div>
 
     <script>
-        const outputDiv = document.getElementById('output');
         let running = true;
+        const menuDisplay = document.getElementById('menuDisplay');
 
-        // Function to add text to output
-        function print(text) {
-            outputDiv.innerHTML += text + '<br>';
+        function displayWelcome() {
+            return `====================================
+    Welcome to Flight Management    
+====================================
+
+Please select an option:
+1. Aircraft List
+2. Ticket List
+3. Exit`;
         }
 
-        // Clear previous output and show welcome message
-        function initialize() {
-            outputDiv.innerHTML = '';
-            print("====================================");
-            print("    Welcome to Flight Management    ");
-            print("====================================");
+        function updateDisplay(message) {
+            menuDisplay.textContent = message;
         }
 
-        // Handle menu choices
         function handleChoice(choice) {
+            let message = displayWelcome() + "\n\n";
+            
             if (!running) {
-                initialize();
                 running = true;
+                updateDisplay(displayWelcome());
                 return;
             }
 
             switch (choice) {
                 case "1":
-                    print("\nDisplaying Aircraft List...");
-                    // Add aircraft list functionality here
+                    message += "Displaying Aircraft List...";
                     break;
                 case "2":
-                    print("\nDisplaying Ticket List...");
-                    // Add ticket list functionality here
+                    message += "Displaying Ticket List...";
                     break;
                 case "3":
-                    print("\nThank you for using Flight Management. Goodbye!");
+                    message += "Thank you for using Flight Management. Goodbye!";
                     running = false;
                     break;
                 default:
-                    print("\nInvalid option. Please try again.");
+                    message += "Invalid option. Please try again.";
                     break;
             }
+            
+            updateDisplay(message);
         }
 
-        // Initialize the application
-        initialize();
+        // Initialize the display when page loads
+        window.onload = function() {
+            updateDisplay(displayWelcome());
+        }
     </script>
 </body>
 </html>
